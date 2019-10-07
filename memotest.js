@@ -1,38 +1,77 @@
 // DECLARO VARIABLES Y CONSTANTES;
 
-var matrixSize = 4; // Establezco el tamaño que va a tener la matrix;
-var matrix = []; // Genero la matriz que va a ser bidimensional;
-var counter; // Counter me va a servir para poder recorrer matrix en relacion a los distintos tamaños que va a elegir el usuario;
-var imgPath = [];
+var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
+var matrix=[]; // declaro la matriz
+var puntos; //
+var tiempo; //declaro variable que guarda el tiempo
+let clock; // declaro variable que guarda el setInterval
+var jugadores; //variable que guarda los jugadores
+var jugadoresTiempo=[]; //declaro un array donde llevo el tiempo de cada jugador.
+var jugadoresPuntaje=[]; //declaro un array donde llevo el puntaje de cada jugador.
+var baseScore=1000; // puntaje base
+const modifier=0.95; // El valor por el cual se divide el puntaje por cada segundo que el jugador tardo.
 
 
-// FUNCIONES; 
+for (i=0; i<matrixSize, i++) { //recorre la dimension de la matriz
+    matrix.push([]);//agrega un array por posicion de matrixSize
+    for (x=0;x<i;x++) {
+        matrix[i].push(0);//rellena de la cantidad de 0 necesaria
+    }
+};
 
-// generateArrays() le agrega arrays anidados a matrix [], y le agrega posiciones a cada uno en la misma cantidad y valor;
-function generateArrays () {
-    
-    for (let i=0; i<matrixSize; i++) { // Recorre la dimension de la matriz;
-        matrix.push([]); // Agrega un array por posicion de matrixSize;
-        for (let x=0; x<i ; x++) {
-            matrix[i].push(0); // Agrega posiciones a los arrays anidados, dandoles valor 0;
+for (i=0; i=board.length;i++) {
+    valueAssigner = dameRandom(maxValue);
+    imgPath = i;
+    for (x=0;x<2;x++) {
+        board[dameRandom(boardCap)][dameRandom(boardCap)] = valueAssigner;        
+    }
+};
+
+//Lógica de jugador - Time Deathmatch
+
+function contraReloj (tiempo) {
+        generarJugadores();
+    	clock=setInterval(raceTime(tiempo),1000); // Comienza la cuenta del reloj
+};
+
+function raceTime(tiempo,id) { //toda esta funcion es para que en vez de comparar puntajes al terminar, que el jugador pueda ver un reloj contando hacia atrás para saber cuanto tiempo lo queda para vencer a los otros jugadores.
+    if (tiempo==0) {
+        finish();
+        document.getElementById(id).innerHTML="0";
+    }
+    else{
+    tiempo= tiempo-1;
+    document.getElementById(id).innerHTML=JSON.stringify(tiempo); //imprime el tiempo en el elemento HTML que necesitemos (cada segundo que pasa)
+    }
+};
+
+function finish() {
+    clearInterval(clock); // freno el reloj
+    displayScore(/* insertar id del elemento que muestra el puntaje */); // dependiendo de cómo querramos avanzar la parte visual esta funcion va a hacerse un poco mas larga
+};
+
+function generarJugadores (id) { // Esta función genera los espacios para asignar los valores dentro del array, ya que sino devolveria error por no tener una posicion en el array.
+    jugadores=document.getElementById(id).value;
+    for (i=0; i< jugadores; i++) {
+        jugadoresPuntaje.push("N/A");
+        jugadoresTiempo.push("N/A");
     }
 }
-}
 
-// assigner() toma dos posiciones random dentro de matrix [] y les asigna valor de a pares. El valor se va a asignar en funcion a un array de strings que va a tener las src de los distintos pares del memotest;
-function assigner () {
+function keepTrackOfPlayer(playerNumber) {
+    jugadoresPuntaje[playerNumber]=puntos;
+    jugadoresTiempo[playerNumber]=tiempo; // ARRAYS! YES! aca mantengo el tiempo y el puntaje, despues decidimos si mostrar ambas o una sola.
+};
 
-    counter = (matrixSize * matrixSize)/2; //matrixSize al cuadrado, se divide x2 porque en esta funcion asignamos valores de a pares;
-    for (let i=0; i=counter; i++) { // 
-        valueAssigner = imgPath[i]; // randomValue va a asignar a los pares la posicion [i] dentro del array imgPath (array de strings con la SRC de las imagenes del memotest);
-        for (let x=0; x<2; x++) {
-            matrix[randomValue(matrixSize)][randomValue(matrixSize)] = i; // este for anidado va a "elegir" dos posiciones de matrix [] en base a random, y les va a asignar imgPath [i];
-    }
-}
-}
+function scoreMaker (tiempo) {
+    score=baseScore;
+    for (i=0; i<tiempo; i++) {
+        score= score*modifier; // esto baja el puntaje cada segundo que pasa.
+    };
+    return score // devuelvo el puntaje final.
+};
 
-function randomValue (max) {
-
-    return Math.floor (Math.random () * max);
-    
+function displayScore(id) {
+    score= scoreMaker()
+    document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
 }
