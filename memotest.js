@@ -40,6 +40,7 @@ function finish() {
    clearInterval(clock); // freno el reloj
    displayScore(/* insertar id del elemento que muestra el puntaje */); // dependiendo de cómo querramos avanzar la parte visual esta funcion va a hacerse un poco mas larga
 };
+
 function generarJugadores (id) { // Esta función genera los espacios para asignar los valores dentro del array, ya que sino devolveria error por no tener una posicion en el array.
    jugadores=document.getElementById(id).value;
    for (i=0; i< jugadores; i++) {
@@ -47,10 +48,12 @@ function generarJugadores (id) { // Esta función genera los espacios para asign
        jugadoresTiempo.push("N/A");
    }
 }
+
 function keepTrackOfPlayer(playerNumber) {
    jugadoresPuntaje[playerNumber]=puntos;
    jugadoresTiempo[playerNumber]=tiempo; // ARRAYS! YES! aca mantengo el tiempo y el puntaje, despues decidimos si mostrar ambas o una sola.
 };
+
 function scoreMaker (tiempo) {
    score=baseScore;
    for (i=0; i<tiempo; i++) {
@@ -58,7 +61,29 @@ function scoreMaker (tiempo) {
    };
    return score // devuelvo el puntaje final.
 };
+
 function displayScore(id) {
    score= scoreMaker()
    document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
 }
+
+var shuffle = function (array) {
+
+	var currentIndex = array.length;
+	var temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+
+};
