@@ -18,25 +18,19 @@ const modifier=0.95; // El valor por el cual se divide el puntaje por cada segun
 function generateMatrix () {
     for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
     matrix.push([]);//agrega un array por posicion de matrixSize
-    if(matrixSize%2 != 0) {
-        for (let j=0; j<matrixColumns-1; j++) {
-            matrix[i].push(0);//rellena de la cantidad de 0 necesaria
-            shuffleArray.push({Row:i, Col:j});
-            };
-    } else {
+    
     for (let j=0; j<matrixColumns; j++) {
         matrix[i].push(0);//rellena de la cantidad de 0 necesaria
         shuffleArray.push({Row:i, Col:j});
         };
-    }
 };
     shuffleArray=shuffler(shuffleArray);
 }
 
 function valueAssigner() {
-    for (let i=0; i<Math.floor((matrixSize*matrixSize)); i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impartes (5x5, 7x7, 9x9)
+    for (let i=0; i<Math.floor(((matrixSize*matrixSize)/2)*2); i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
-            matrix[shuffleArray/*array que contiene los objetos*/[i+j]/*Subposición del array de onjetos*/.Row/*asigna el valor de ROW dentro del objeto en la posicion*/][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
+            matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
     }
 }
@@ -48,7 +42,10 @@ function check(value) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
             checker=[];
         }
-        else {flip(checker[0],checker[1])}
+        else {
+            flip(checker[0],checker[1]);
+            checker=[];
+        }
     }
 }
 
