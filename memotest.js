@@ -2,7 +2,10 @@
 var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
+var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
+var imgArray=[]; // declaro el array que va a contener los objetos.
+var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var puntos; //
 var tiempo; //declaro variable que guarda el tiempo
 let clock; // declaro variable que guarda el setInterval
@@ -15,21 +18,45 @@ const modifier=0.95; // El valor por el cual se divide el puntaje por cada segun
 function generateMatrix () {
     for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
     matrix.push([]);//agrega un array por posicion de matrixSize
+    if(matrixSize%2 != 0) {
+        for (let j=0; j<matrixColumns-1; j++) {
+            matrix[i].push(0);//rellena de la cantidad de 0 necesaria
+            shuffleArray.push({Row:i, Col:j});
+            };
+    } else {
     for (let j=0; j<matrixColumns; j++) {
         matrix[i].push(0);//rellena de la cantidad de 0 necesaria
+        shuffleArray.push({Row:i, Col:j});
+        };
+    }
+};
+    shuffleArray=shuffler(shuffleArray);
+}
+
+function valueAssigner() {
+    for (let i=0; i<Math.floor((matrixSize*matrixSize)); i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impartes (5x5, 7x7, 9x9)
+        for(let j=0; j<2; j++) { // Generar de a pares
+            matrix[shuffleArray/*array que contiene los objetos*/[i+j]/*Subposición del array de onjetos*/.Row/*asigna el valor de ROW dentro del objeto en la posicion*/][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
     }
 }
 
-function asignateImgs () {
-    for (i=0; i=board.length;i++) {
-    valueAssigner = dameRandom(maxValue);
-    imgPath = i;
-    for (x=0;x<2;x++) {
-        board[dameRandom(boardCap)][dameRandom(boardCap)] = valueAssigner;
+function check(value) {
+    checker.push(value);
+    if (checker.length=2) {
+        if (checker[0]==checker[1]) {
+            /* lo que queremos que pase cuando se cumpla la condicion */;
+            checker=[];
         }
+        else {flip(checker[0],checker[1])}
     }
 }
+
+function flip(id1,id2) {
+    document.getElementById(id1).setAttribute(src,"default.jpg");
+    document.getElementById(id2).setAttribute(src,"default.jpg")
+}
+
 //Lógica de jugador - Time Deathmatch
 function contraReloj (tiempo) {
        generarJugadores();
@@ -67,7 +94,7 @@ function displayScore(id) {
    document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
 }
 
-var shuffle = function (array) {
+function shuffler (array) {
 
 	var currentIndex = array.length;
 	var temporaryValue, randomIndex;
