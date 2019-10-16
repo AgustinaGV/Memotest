@@ -7,6 +7,7 @@ var matrix=[]; // declaro la matriz
 var imgArray=[]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var puntos; //
+var pairCount=0;
 var tiempo; //declaro variable que guarda el tiempo
 let clock; // declaro variable que guarda el setInterval
 var jugadores; //variable que guarda los jugadores
@@ -28,25 +29,41 @@ function generateMatrix () {
 }
 
 function valueAssigner() {
-    for (let i=0; i<Math.floor(((matrixSize*matrixSize)/2)*2); i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<Math.floor(((matrixSize*matrixSize)/2))*2; i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
     }
 }
 
-function check(value) {
-    checker.push(value);
+function check(value,id) {
+    checker.push(id);
     if (checker.length=2) {
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
             checker=[];
+            pairCount=pairCount+1;
         }
         else {
             flip(checker[0],checker[1]);
             checker=[];
         }
     }
+    else {
+        showCard(id,value)
+    }
+    if (pairCount=Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
+        gameEnd ();
+    }
+}
+
+function gameEnd () {
+    finish();
+    /* aca hay que modificar el html del onclick para que deje de ejecutar logica */
+}
+
+function showCard (id,value) {
+    document.getElementById(id).setAttribute(src,imgArray[value])
 }
 
 function flip(id1,id2) {
