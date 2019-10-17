@@ -1,4 +1,5 @@
 // DECLARO VARIABLES Y CONSTANTES;
+var content = document.querySelector("table tbody"); /*le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido*/
 var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
@@ -63,7 +64,7 @@ function gameEnd () {
 }
 
 function showCard (id,value) {
-    document.getElementById(id).setAttribute(src,imgArray[value])
+    document.getElementById(id).setAttribute(src,imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
 }
 
 function flip(id1,id2) {
@@ -128,3 +129,31 @@ function shuffler (array) {
 	return array;
 
 };
+
+console.log((5-5)+""+(0+1));
+
+function generateTable (content) {
+
+    /* metodo para limpiar la tabla */
+    content.innerHTML = null;
+
+    /* el forEach permite que en vez de recorrer un lazo for, la funcion se ajuste directamente a la cantidad de elementos que tiene matrixRow o matrixColumns */
+    matrixRows.forEach (function (){
+
+        let tr = document.createElement ("tr");
+
+        matrixColumns.forEach (function(){
+
+            /* en el setAttribute le asignamos un iD. El calculo es matrixRows/matrixColumns - 1 así se ajusta al numero inicial de los arrays que es CERO */
+            let td = document.createElement("td");
+            td.appendChild(document.setAttribute("id", (matrixRows-1)+""+(matrixColumns-1) ));
+            tr.appendChild (td);
+            }
+        )
+        }
+
+    )
+     
+    
+
+}
