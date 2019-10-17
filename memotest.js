@@ -130,7 +130,7 @@ function shuffler (array) {
 
 };
 
-console.log((5-5)+""+(0+1));
+console.log((5-5)+""+(0+1)); // ??????
 
 function generateTable (content) {
 
@@ -147,6 +147,7 @@ function generateTable (content) {
             /* en el setAttribute le asignamos un iD. El calculo es matrixRows/matrixColumns - 1 así se ajusta al numero inicial de los arrays que es CERO */
             let td = document.createElement("td");
             td.appendChild(document.setAttribute("id", (matrixRows-1)+""+(matrixColumns-1) ));
+            //posible concepto para generar los onclicks: document.getElementById((matrixRows-1)+""+(matrixColumns-1)).setAttribute(onclick,"check([matrixRows][matrixColumns],(matrixRows-1)+""+(matrixColumns-1))")
             tr.appendChild (td);
             }
         )
@@ -157,3 +158,5 @@ function generateTable (content) {
     
 
 }
+
+window.onload(generateTable("tablero"))
