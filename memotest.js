@@ -15,6 +15,7 @@ var jugadores; //variable que guarda los jugadores
 var jugadoresTiempo=[]; //declaro un array donde llevo el tiempo de cada jugador.
 var jugadoresPuntaje=[]; //declaro un array donde llevo el puntaje de cada jugador.
 var baseScore=1000; // puntaje base
+var idHolder=[];
 const modifier=0.95; // El valor por el cual se divide el puntaje por cada segundo que el jugador tardo.
 
 function generateMatrix () {
@@ -38,24 +39,35 @@ function valueAssigner() {
 }
 
 function check(value,id) {
-    checker.push(id);
+    checker.push(value);
+    idHolder.push(id);
+
     if (checker.length=2) {
+        showCard(id,value);
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
+            setTimeout(correctPair(idHolder[0],idHolder[1]),2000)
             checker=[];
+            idHolder=[];
             pairCount=pairCount+1;
         }
         else {
-            flip(checker[0],checker[1]);
+            setTimeout(flip(idHolder[0],idHolder[1]),2000)
             checker=[];
+            idHolder=[];
         }
     }
     else {
         showCard(id,value)
     }
     if (pairCount=Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
-        gameEnd ();
+        gameEnd();
     }
+}
+
+function correctPair(id1,id2) {
+    document.getElementById(id1).setAttribute("class","correct");
+    document.getElementById(id2).setAttribute("class","correct");
 }
 
 function gameEnd () {
@@ -64,12 +76,12 @@ function gameEnd () {
 }
 
 function showCard (id,value) {
-    document.getElementById(id).setAttribute(src,imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
+    document.getElementById(id).setAttribute("src",imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
 }
 
 function flip(id1,id2) {
-    document.getElementById(id1).setAttribute(src,"default.jpg");
-    document.getElementById(id2).setAttribute(src,"default.jpg")
+    document.getElementById(id1).setAttribute("src","default.jpg");
+    document.getElementById(id2).setAttribute("src","default.jpg")
 }
 
 //Lógica de jugador - Time Deathmatch
@@ -77,6 +89,10 @@ function contraReloj (tiempo) {
        generarJugadores();
        clock=setInterval(raceTime(tiempo),1000); // Comienza la cuenta del reloj
 };
+
+function raceTime(tiempo) {
+    tiempo=tiempo+1;
+}
 
 function finish() {
    clearInterval(clock); // freno el reloj
@@ -86,8 +102,8 @@ function finish() {
 function generarJugadores (id) { // Esta función genera los espacios para asignar los valores dentro del array, ya que sino devolveria error por no tener una posicion en el array.
    jugadores=document.getElementById(id).value;
    for (i=0; i< jugadores; i++) {
-       jugadoresPuntaje.push("N/A");
-       jugadoresTiempo.push("N/A");
+       jugadoresPuntaje.push(null);
+       jugadoresTiempo.push(null);
    }
 }
 
@@ -134,6 +150,8 @@ console.log((5-5)+""+(0+1)); // ??????
 
 function generateTable (content) {
 
+    generateMatrix();
+
     /* metodo para limpiar la tabla */
     content.innerHTML = null;
 
@@ -159,4 +177,8 @@ function generateTable (content) {
 
 }
 
-window.onload(generateTable("tablero"))
+window.onload(generateTable("tablero"));
+
+function gameStart() {
+    contraReloj(tiempo);
+}
