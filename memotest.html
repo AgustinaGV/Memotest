@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" href="style.css">
 <meta charset="utf-8">
 <title>Memotest</title>
 
@@ -11,16 +12,16 @@
 
     <h1>Memotest</h1>
     
-    <select id="pick">
+    <select id="pick" onchange="getMatrixSize()">
         <option value="4">4x4</option>
         <option value="5">5x5</option>
         <option value="6">6x6</option>
     </select>
 
-    <table id="tablero">
+    <table>
 
-        <tbody>
-            
+        <tbody id="tablero">
+
         </tbody>
         
     </table>
