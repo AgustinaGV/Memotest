@@ -27,7 +27,7 @@ function generateMatrix () {
         shuffleArray.push({Row:i, Col:j});
         };
 };
-    shuffleArray=shuffler(shuffleArray);
+    //shuffleArray=shuffler(shuffleArray);
 }
 
 function valueAssigner() {
@@ -148,36 +148,22 @@ function shuffler (array) {
 
 console.log((5-5)+""+(0+1)); // ??????
 
-function generateTable (content) {
+function generateTable () {
 
     generateMatrix();
 
     /* metodo para limpiar la tabla */
-    content.innerHTML = null;
-
-    /* el forEach permite que en vez de recorrer un lazo for, la funcion se ajuste directamente a la cantidad de elementos que tiene matrixRow o matrixColumns */
-    matrixRows.forEach (function (){
-
-        let tr = document.createElement ("tr");
-
-        matrixColumns.forEach (function(){
-
-            /* en el setAttribute le asignamos un iD. El calculo es matrixRows/matrixColumns - 1 así se ajusta al numero inicial de los arrays que es CERO */
-            let td = document.createElement("td");
-            td.appendChild(document.setAttribute("id", (matrixRows-1)+""+(matrixColumns-1) ));
-            //posible concepto para generar los onclicks: document.getElementById((matrixRows-1)+""+(matrixColumns-1)).setAttribute(onclick,"check([matrixRows][matrixColumns],(matrixRows-1)+""+(matrixColumns-1))")
-            tr.appendChild (td);
+    document.getElementById("tablero").innerHTML = '';
+    for (let j=0; j < matrixRows; j++) {
+        document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
+        for (let i=0; i < matrixColumns; i++) {
+            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")"><img id="'+j+''+i+'"></td>'
             }
-        )
-        }
-
-    )
-     
-    
-
+        
+        } 
 }
 
-window.onload(generateTable("tablero"));
+generateTable();
 
 function gameStart() {
     contraReloj(tiempo);
