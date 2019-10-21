@@ -76,12 +76,12 @@ function gameEnd () {
 }
 
 function showCard (id,value) {
-    document.getElementById(id).setAttribute("src",imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
+    document.getElementById(id).setAttribute("src","img/"+imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
 }
 
 function flip(id1,id2) {
-    document.getElementById(id1).setAttribute("src","default.jpg");
-    document.getElementById(id2).setAttribute("src","default.jpg")
+    document.getElementById(id1).setAttribute("src","img/default.png");
+    document.getElementById(id2).setAttribute("src","img/default.png")
 }
 
 //Lógica de jugador - Time Deathmatch
@@ -146,22 +146,19 @@ function shuffler (array) {
 
 };
 
-console.log((5-5)+""+(0+1)); // ??????
+var tableSize = document.getElementById("pick");
 
 function generateTable () {
-
     generateMatrix();
-
     /* metodo para limpiar la tabla */
     document.getElementById("tablero").innerHTML = '';
-    for (let j=0; j < matrixRows; j++) {
+    for (let j=0; j < tableSize.value; j++) {
         document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
-        for (let i=0; i < matrixColumns; i++) {
-            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")">'+j+''+i+'<img id="'+j+''+i+'"></td>'
+        for (let i=0; i < tableSize.value; i++) {
+            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")"><img id="'+j+''+i+'"></td>'
             }
-        
-        } 
-}
+        }
+ }
 
 generateTable();
 
@@ -171,11 +168,8 @@ function gameStart() {
 
 var tableSize = document.getElementById("pick");
 
-for(i=0;i<tableSize.value;i++){
-    let tr = document.createElement(tr);
-    for(i=0;i<tableSize.value;i++){
-        let td = document.createElement(td);
-        td.appendChild("");
-        tr.appendChild(td);
-    }
-}
+function getMatrixSize() {
+    matrixSize=document.getElementById("pick").value;
+    matrixRows=document.getElementById("pick").value;
+    matrixColumns=document.getElementById("pick").value;
+} 
