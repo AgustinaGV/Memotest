@@ -5,7 +5,7 @@ var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
 var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
-var imgArray=[]; // declaro el array que va a contener los objetos.
+var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg", "img/18.jpg"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var puntos; //
 var pairCount=0;
@@ -181,4 +181,15 @@ window.onload(generateTable("tablero"));
 
 function gameStart() {
     contraReloj(tiempo);
+}
+
+var tableSize = document.getElementById("pick");
+
+for(i=0;i<tableSize.value;i++){
+    let tr = document.createElement(tr);
+    for(i=0;i<tableSize.value;i++){
+        let td = document.createElement(td);
+        td.appendChild("");
+        tr.appendChild(td);
+    }
 }
