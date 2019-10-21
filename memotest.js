@@ -27,7 +27,7 @@ function generateMatrix () {
         shuffleArray.push({Row:i, Col:j});
         };
 };
-    shuffleArray=shuffler(shuffleArray);
+    //shuffleArray=shuffler(shuffleArray);
 }
 
 function valueAssigner() {
@@ -156,28 +156,37 @@ function generateTable (content) {
     content.innerHTML = null;
 
     /* el forEach permite que en vez de recorrer un lazo for, la funcion se ajuste directamente a la cantidad de elementos que tiene matrixRow o matrixColumns */
-    matrixRows.forEach (function (){
+    
+    for (let j=0; j < matrixRows; j++) {
 
         let tr = document.createElement ("tr");
 
-        matrixColumns.forEach (function(){
+        for (let i=0; i < matrixColumns; i++) {
 
-            /* en el setAttribute le asignamos un iD. El calculo es matrixRows/matrixColumns - 1 así se ajusta al numero inicial de los arrays que es CERO */
+            /* En el setAttribute le asignamos un iD. Para generarlo, convertimos en string las dos variables que usamos en los lazos for, "j" e "i". J va a modificarse n veces = cantidad de filas. En cambio i va a modificarse varias mas, volviendo a 0 en varias oportunidades */
             let td = document.createElement("td");
-            td.appendChild(document.setAttribute("id", (matrixRows-1)+""+(matrixColumns-1) ));
+            td = document.createTextNode("hola "+i)
+            //td.appendChild(document.setAttribute("id", "kulo"));
             //posible concepto para generar los onclicks: document.getElementById((matrixRows-1)+""+(matrixColumns-1)).setAttribute(onclick,"check([matrixRows][matrixColumns],(matrixRows-1)+""+(matrixColumns-1))")
             tr.appendChild (td);
             }
-        )
-        }
-
-    )
-     
-    
-
+        
+        } 
 }
 
-window.onload(generateTable("tablero"));
+function funcionPrueba (content) {
+
+    content.innerHTML = null;
+    document.getElementById("tablero").innerHTML = "<div> hola loko </div>";
+}
+
+function startGame () {
+    let content = document.querySelector ("table tbody");
+    funcionPrueba (content);
+}
+
+startGame();
+console.log(content);
 
 function gameStart() {
     contraReloj(tiempo);
