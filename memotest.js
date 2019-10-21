@@ -27,11 +27,12 @@ function generateMatrix () {
         shuffleArray.push({Row:i, Col:j});
         };
 };
+    valueAssigner(); //Esto ahora mismo esta generando un loop infinito y no tengo idea por que
     //shuffleArray=shuffler(shuffleArray);
 }
 
 function valueAssigner() {
-    for (let i=0; i<Math.floor(((matrixSize*matrixSize)/2))*2; i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<(Math.floor(((matrix.length*matrix.length)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
@@ -39,8 +40,11 @@ function valueAssigner() {
 }
 
 function check(value,id) {
+    
     checker.push(value);
     idHolder.push(id);
+
+    console.log(id);
 
     if (checker.length=2) {
         showCard(id,value);
@@ -52,7 +56,7 @@ function check(value,id) {
             pairCount=pairCount+1;
         }
         else {
-            setTimeout(flip(idHolder[0],idHolder[1]),2000)
+            //setTimeout(flip(idHolder[0],idHolder[1]),2000)
             checker=[];
             idHolder=[];
         }
@@ -76,7 +80,7 @@ function gameEnd () {
 }
 
 function showCard (id,value) {
-    document.getElementById(id).setAttribute("src","img/"+imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
+    document.getElementById(id).setAttribute("src",imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
 }
 
 function flip(id1,id2) {
@@ -96,7 +100,7 @@ function raceTime(tiempo) {
 
 function finish() {
    clearInterval(clock); // freno el reloj
-   displayScore(/* insertar id del elemento que muestra el puntaje */); // dependiendo de cómo querramos avanzar la parte visual esta funcion va a hacerse un poco mas larga
+   //displayScore(/* insertar id del elemento que muestra el puntaje */); // dependiendo de cómo querramos avanzar la parte visual esta funcion va a hacerse un poco mas larga
 };
 
 function generarJugadores (id) { // Esta función genera los espacios para asignar los valores dentro del array, ya que sino devolveria error por no tener una posicion en el array.
@@ -148,6 +152,15 @@ function shuffler (array) {
 
 var tableSize = document.getElementById("pick");
 
+function returnString(a,b) {
+    var stringA=a.toString();
+    var stringB=b.toString();
+    var finalString=stringA+stringB;
+    finalString=finalString.toString();
+
+    return finalString;
+}
+
 function generateTable () {
     generateMatrix();
     /* metodo para limpiar la tabla */
@@ -155,7 +168,7 @@ function generateTable () {
     for (let j=0; j < tableSize.value; j++) {
         document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
         for (let i=0; i < tableSize.value; i++) {
-            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")"><img id="'+j+''+i+'"></td>'
+            document.getElementById("row"+j).innerHTML+= '<td onclick="check(matrix['+j+']['+i+'],'+returnString(j,i)+')"><img src="img/default.png" id="'+j+''+i+'"></td>'
             }
         }
  }
