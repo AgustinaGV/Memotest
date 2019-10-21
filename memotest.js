@@ -151,7 +151,7 @@ var tableSize = document.getElementById("pick");
 function generateTable () {
     generateMatrix();
     /* metodo para limpiar la tabla */
-    document.getElementById("tablero").innerHTML = '';
+    document.getElementById("tablero").innerHTML = "";
     for (let j=0; j < tableSize.value; j++) {
         document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
         for (let i=0; i < tableSize.value; i++) {
@@ -166,10 +166,11 @@ function gameStart() {
     contraReloj(tiempo);
 }
 
-var tableSize = document.getElementById("pick");
+getMatrixSize();
 
 function getMatrixSize() {
     matrixSize=document.getElementById("pick").value;
     matrixRows=document.getElementById("pick").value;
     matrixColumns=document.getElementById("pick").value;
+    generateTable();
 } 
