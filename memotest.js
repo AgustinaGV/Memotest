@@ -5,7 +5,7 @@ var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
 var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
-var imgArray=[]; // declaro el array que va a contener los objetos.
+var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg", "img/18.jpg"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var puntos; //
 var pairCount=0;
@@ -148,46 +148,34 @@ function shuffler (array) {
 
 console.log((5-5)+""+(0+1)); // ??????
 
-function generateTable (content) {
+function generateTable () {
 
     generateMatrix();
 
     /* metodo para limpiar la tabla */
-    content.innerHTML = null;
-
-    /* el forEach permite que en vez de recorrer un lazo for, la funcion se ajuste directamente a la cantidad de elementos que tiene matrixRow o matrixColumns */
-    
+    document.getElementById("tablero").innerHTML = '';
     for (let j=0; j < matrixRows; j++) {
-
-        let tr = document.createElement ("tr");
-
+        document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
         for (let i=0; i < matrixColumns; i++) {
-
-            /* En el setAttribute le asignamos un iD. Para generarlo, convertimos en string las dos variables que usamos en los lazos for, "j" e "i". J va a modificarse n veces = cantidad de filas. En cambio i va a modificarse varias mas, volviendo a 0 en varias oportunidades */
-            let td = document.createElement("td");
-            td = document.createTextNode("hola "+i)
-            //td.appendChild(document.setAttribute("id", "kulo"));
-            //posible concepto para generar los onclicks: document.getElementById((matrixRows-1)+""+(matrixColumns-1)).setAttribute(onclick,"check([matrixRows][matrixColumns],(matrixRows-1)+""+(matrixColumns-1))")
-            tr.appendChild (td);
+            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")"><img id="'+j+''+i+'"></td>'
             }
         
         } 
 }
 
-function funcionPrueba (content) {
-
-    content.innerHTML = null;
-    document.getElementById("tablero").innerHTML = "<div> hola loko </div>";
-}
-
-function startGame () {
-    let content = document.querySelector ("table tbody");
-    funcionPrueba (content);
-}
-
-startGame();
-console.log(content);
+generateTable();
 
 function gameStart() {
     contraReloj(tiempo);
+}
+
+var tableSize = document.getElementById("pick");
+
+for(i=0;i<tableSize.value;i++){
+    let tr = document.createElement(tr);
+    for(i=0;i<tableSize.value;i++){
+        let td = document.createElement(td);
+        td.appendChild("");
+        tr.appendChild(td);
+    }
 }
