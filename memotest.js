@@ -157,7 +157,7 @@ function generateTable () {
     for (let j=0; j < matrixRows; j++) {
         document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
         for (let i=0; i < matrixColumns; i++) {
-            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")"><img id="'+j+''+i+'"></td>'
+            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")">'+j+''+i+'<img id="'+j+''+i+'"></td>'
             }
         
         } 
