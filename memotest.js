@@ -27,12 +27,12 @@ function generateMatrix () {
         shuffleArray.push({Row:i, Col:j});
         };
 };
-    valueAssigner(); //Esto ahora mismo esta generando un loop infinito y no tengo idea por que
+
     //shuffleArray=shuffler(shuffleArray);
 }
 
 function valueAssigner() {
-    for (let i=0; i<(Math.floor(((matrix.length*matrix.length)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<(Math.floor(((matrixSize*matrixSize)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
@@ -46,7 +46,7 @@ function check(value,id) {
 
     console.log(id);
 
-    if (checker.length=2) {
+    if (checker.length===2) {
         showCard(id,value);
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
@@ -56,7 +56,7 @@ function check(value,id) {
             pairCount=pairCount+1;
         }
         else {
-            //setTimeout(flip(idHolder[0],idHolder[1]),2000)
+            var fillerVar=setTimeout(flip(idHolder[0],idHolder[1]),2000);
             checker=[];
             idHolder=[];
         }
@@ -163,6 +163,8 @@ function returnString(a,b) {
 
 function generateTable () {
     generateMatrix();
+    valueAssigner();
+    shuffler(shuffleArray);
     /* metodo para limpiar la tabla */
     document.getElementById("tablero").innerHTML = "";
     for (let j=0; j < tableSize.value; j++) {
