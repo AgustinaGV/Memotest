@@ -1,5 +1,6 @@
 // DECLARO VARIABLES Y CONSTANTES;
 var content = document.querySelector("table tbody"); /*le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido*/
+var tableSize = document.getElementById("pick");
 var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
@@ -9,14 +10,57 @@ var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var puntos; //
 var pairCount=0;
-var tiempo; //declaro variable que guarda el tiempo
-let clock; // declaro variable que guarda el setInterval
 var jugadores; //variable que guarda los jugadores
-var jugadoresTiempo=[]; //declaro un array donde llevo el tiempo de cada jugador.
-var jugadoresPuntaje=[]; //declaro un array donde llevo el puntaje de cada jugador.
-var baseScore=1000; // puntaje base
 var idHolder=[];
-const modifier=0.95; // El valor por el cual se divide el puntaje por cada segundo que el jugador tardo.
+
+/*---------------------- FUNCIONES ----------------------*/
+
+/*function generateTable () {
+    generateMatrix();
+    valueAssigner();
+    shuffler(shuffleArray);
+    //metodo para limpiar la tabla 
+    document.getElementById("tablero").innerHTML = "";
+    for (let j=0; j < tableSize.value; j++) {
+        document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
+        for (let i=0; i < tableSize.value; i++) {
+            document.getElementById("row"+j).innerHTML+= '<td onclick="check(matrix['+j+']['+i+'],'+returnString(j,i)+')"><img src="img/default.png" id="'+j+''+i+'"></td>'
+            }
+        }
+ }*/
+
+ function generateTable () {
+  
+    content.innerHTML = null;
+    for (let j=0; j<matrixRows; j++) {
+        let row = content.insertRow (j)
+        row.setAttribute("id", "row "+j);
+        for (let i=0; i<matrixColumns; i++) {
+            let cell = row.insertCell(i);
+            cell.innerHTML = "<img src=img/default.png>";
+            cell.setAttribute ("id", j+""+i);
+            cell.setAttribute ("onclick", "saludar(id)");
+        };
+    }
+}
+
+
+function saludar (identif) {
+    console.log ("hola perrita "+identif);
+}
+
+generateTable ();
+
+
+function getMatrixSize() {
+    matrixSize=document.getElementById("pick").value;
+    matrixRows=document.getElementById("pick").value;
+    matrixColumns=document.getElementById("pick").value;
+    generateTable();
+} 
+
+getMatrixSize();
+
 
 function generateMatrix () {
     for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
@@ -37,6 +81,19 @@ function valueAssigner() {
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
     }
+}
+
+function parser (id) {
+
+    let tenedor = id;
+    let guardarPrimerNumero = tenedor.substr(1,1);
+    let guardarSegundoNumero = tenedor.substr(2,1);
+    parseInt(guardarPrimerNumero) = guardarPrimerNumero;
+    parseInt (guardarSegundoNumero) = guardarSegundoNumero;
+    let valorMatriz = matrix[guardarPrimerNumero][guardarSegundoNumero];
+
+    return valorMatriz;
+
 }
 
 function check(value,id) {
@@ -74,11 +131,6 @@ function correctPair(id1,id2) {
     document.getElementById(id2).setAttribute("class","correct");
 }
 
-function gameEnd () {
-    finish();
-    /* aca hay que modificar el html del onclick para que deje de ejecutar logica */
-}
-
 function showCard (id,value) {
     document.getElementById(id).setAttribute("src",imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
 }
@@ -88,20 +140,6 @@ function flip(id1,id2) {
     document.getElementById(id2).setAttribute("src","img/default.png")
 }
 
-//Lógica de jugador - Time Deathmatch
-function contraReloj (tiempo) {
-       generarJugadores();
-       clock=setInterval(raceTime(tiempo),1000); // Comienza la cuenta del reloj
-};
-
-function raceTime(tiempo) {
-    tiempo=tiempo+1;
-}
-
-function finish() {
-   clearInterval(clock); // freno el reloj
-   //displayScore(/* insertar id del elemento que muestra el puntaje */); // dependiendo de cómo querramos avanzar la parte visual esta funcion va a hacerse un poco mas larga
-};
 
 function generarJugadores (id) { // Esta función genera los espacios para asignar los valores dentro del array, ya que sino devolveria error por no tener una posicion en el array.
    jugadores=document.getElementById(id).value;
@@ -110,19 +148,6 @@ function generarJugadores (id) { // Esta función genera los espacios para asign
        jugadoresTiempo.push(null);
    }
 }
-
-function keepTrackOfPlayer(playerNumber) {
-   jugadoresPuntaje[playerNumber]=puntos;
-   jugadoresTiempo[playerNumber]=tiempo; // ARRAYS! YES! aca mantengo el tiempo y el puntaje, despues decidimos si mostrar ambas o una sola.
-};
-
-function scoreMaker (tiempo) {
-   score=baseScore;
-   for (i=0; i<tiempo; i++) {
-       score= score*modifier; // esto baja el puntaje cada segundo que pasa.
-   };
-   return score // devuelvo el puntaje final.
-};
 
 function displayScore(id) {
    score= scoreMaker()
@@ -149,46 +174,3 @@ function shuffler (array) {
 	return array;
 
 };
-
-var tableSize = document.getElementById("pick");
-
-function returnString(a,b) {
-    var stringA=a.toString();
-    var stringB=b.toString();
-    var finalString=stringA+stringB;
-    finalString=finalString.toString();
-
-    return finalString;
-}
-
-function generateTable () {
-    generateMatrix();
-    valueAssigner();
-    shuffler(shuffleArray);
-    /* metodo para limpiar la tabla */
-    document.getElementById("tablero").innerHTML = "";
-    for (let j=0; j < tableSize.value; j++) {
-        document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
-        for (let i=0; i < tableSize.value; i++) {
-            document.getElementById("row"+j).innerHTML+= '<td onclick="check(matrix['+j+']['+i+'],'+returnString(j,i)+')"><img src="img/default.png" id="'+j+''+i+'"></td>'
-            }
-        }
- }
-
-generateTable();
-
-function gameStart() {
-    contraReloj(tiempo);
-}
-
-getMatrixSize();
-
-<<<<<<< HEAD
-=======
-function getMatrixSize() {
-    matrixSize=document.getElementById("pick").value;
-    matrixRows=document.getElementById("pick").value;
-    matrixColumns=document.getElementById("pick").value;
-    generateTable();
-} 
->>>>>>> 7a2d154dc02ea753383d8063a4c271f90eaf89d9
