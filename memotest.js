@@ -96,8 +96,10 @@ function parser (id) {
 
 }
 
-function check(value,id) {
-    
+function check(id) {
+
+    let value=parser();
+    console.log(value,typeof(value))
     checker.push(value);
     idHolder.push(id);
 
@@ -107,13 +109,13 @@ function check(value,id) {
         showCard(id,value);
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
-            setTimeout(correctPair(idHolder[0],idHolder[1]),2000)
+            let fillerVar2= setTimeout(correctPair(idHolder[0],idHolder[1]),2000)
             checker=[];
             idHolder=[];
             pairCount=pairCount+1;
         }
         else {
-            var fillerVar=setTimeout(flip(idHolder[0],idHolder[1]),2000);
+            let fillerVar=setTimeout(flip(idHolder[0],idHolder[1]),2000);
             checker=[];
             idHolder=[];
         }
