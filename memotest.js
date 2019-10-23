@@ -6,7 +6,7 @@ var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
 var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
-var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg", "img/18.jpg"]; // declaro el array que va a contener los objetos.
+var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var puntos; //
 var pairCount=0;
@@ -34,7 +34,7 @@ var idHolder=[];
   
     generateMatrix ();
     valueAssigner();
-    shuffler(shuffleArray);
+    //shuffleArray=shuffler(shuffleArray);
 
     content.innerHTML = null;
     for (let j=0; j<matrixRows; j++) {
@@ -42,9 +42,9 @@ var idHolder=[];
         row.setAttribute("id", "row "+j);
         for (let i=0; i<matrixColumns; i++) {
             let cell = row.insertCell(i);
-            cell.innerHTML = "<img src=img/default.png>";
-            cell.setAttribute ("id", j+""+i);
-            cell.setAttribute ("onclick", "check(id)");
+            cell.innerHTML = "<img src=img/default.png id="+j+""+i+" onclick=check(id)>";
+            //cell.setAttribute ("id", j+""+i);
+            //cell.setAttribute ("onclick", "check(id)");
         };
     }
 }
@@ -64,7 +64,6 @@ function getMatrixSize() {
     generateTable();
 } 
 
-getMatrixSize();
 
 
 function generateMatrix () {
@@ -113,10 +112,10 @@ function shuffler (array) {
 function parser (id) {
 
     let tenedor = id;
-    let guardarPrimerNumero = tenedor.substr(1,1);
-    let guardarSegundoNumero = tenedor.substr(2,1);
-    parseInt(guardarPrimerNumero) = guardarPrimerNumero;
-    parseInt (guardarSegundoNumero) = guardarSegundoNumero;
+    let guardarPrimerNumero = tenedor.substr(0,1);
+    let guardarSegundoNumero = tenedor.substr(1,1);
+    guardarPrimerNumero = parseInt(guardarPrimerNumero);
+    guardarSegundoNumero = parseInt (guardarSegundoNumero);
     let valorMatriz = matrix[guardarPrimerNumero][guardarSegundoNumero];
 
     return valorMatriz;
@@ -124,13 +123,14 @@ function parser (id) {
 }
 
 function check(id) {
-    
-    
+      
     let value = parser (id);
+    console.log(value);
+    console.log(typeof(value));
     checker.push(value);
     idHolder.push(id);
 
-    console.log(id);
+    //console.log(id);
 
     if (checker.length===2) {
         showCard(id,value);
@@ -151,7 +151,7 @@ function check(id) {
         showCard(id,value)
     }
     if (pairCount=Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
-        gameEnd();
+        console.log ("sos vos");
     }
 }
 
