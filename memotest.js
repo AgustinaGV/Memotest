@@ -20,12 +20,12 @@ const modifier=0.95; // El valor por el cual se divide el puntaje por cada segun
 
 function generateMatrix () {
     for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
-    matrix.push([]);//agrega un array por posicion de matrixSize
-    
-    for (let j=0; j<matrixColumns; j++) {
-        matrix[i].push(0);//rellena de la cantidad de 0 necesaria
-        shuffleArray.push({Row:i, Col:j});
-        };
+        matrix.push([]);//agrega un array por posicion de matrixSize
+        
+        for (let j=0; j<matrixColumns; j++) {
+            matrix[i].push(0);//rellena de la cantidad de 0 necesaria
+            shuffleArray.push({Row:i, Col:j});
+            };
 };
     //shuffleArray=shuffler(shuffleArray);
 }
@@ -171,11 +171,3 @@ function gameStart() {
 
 var tableSize = document.getElementById("pick");
 
-for(i=0;i<tableSize.value;i++){
-    let tr = document.createElement(tr);
-    for(i=0;i<tableSize.value;i++){
-        let td = document.createElement(td);
-        td.appendChild("");
-        tr.appendChild(td);
-    }
-}
