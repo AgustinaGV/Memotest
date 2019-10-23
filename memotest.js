@@ -27,11 +27,12 @@ function generateMatrix () {
             shuffleArray.push({Row:i, Col:j});
             };
 };
+
     //shuffleArray=shuffler(shuffleArray);
 }
 
 function valueAssigner() {
-    for (let i=0; i<Math.floor(((matrixSize*matrixSize)/2))*2; i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<(Math.floor(((matrixSize*matrixSize)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
@@ -39,10 +40,13 @@ function valueAssigner() {
 }
 
 function check(value,id) {
+    
     checker.push(value);
     idHolder.push(id);
 
-    if (checker.length=2) {
+    console.log(id);
+
+    if (checker.length===2) {
         showCard(id,value);
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
@@ -52,7 +56,7 @@ function check(value,id) {
             pairCount=pairCount+1;
         }
         else {
-            setTimeout(flip(idHolder[0],idHolder[1]),2000)
+            var fillerVar=setTimeout(flip(idHolder[0],idHolder[1]),2000);
             checker=[];
             idHolder=[];
         }
@@ -80,8 +84,8 @@ function showCard (id,value) {
 }
 
 function flip(id1,id2) {
-    document.getElementById(id1).setAttribute("src","default.jpg");
-    document.getElementById(id2).setAttribute("src","default.jpg")
+    document.getElementById(id1).setAttribute("src","img/default.png");
+    document.getElementById(id2).setAttribute("src","img/default.png")
 }
 
 //Lógica de jugador - Time Deathmatch
@@ -96,7 +100,7 @@ function raceTime(tiempo) {
 
 function finish() {
    clearInterval(clock); // freno el reloj
-   displayScore(/* insertar id del elemento que muestra el puntaje */); // dependiendo de cómo querramos avanzar la parte visual esta funcion va a hacerse un poco mas larga
+   //displayScore(/* insertar id del elemento que muestra el puntaje */); // dependiendo de cómo querramos avanzar la parte visual esta funcion va a hacerse un poco mas larga
 };
 
 function generarJugadores (id) { // Esta función genera los espacios para asignar los valores dentro del array, ya que sino devolveria error por no tener una posicion en el array.
@@ -146,22 +150,30 @@ function shuffler (array) {
 
 };
 
-console.log((5-5)+""+(0+1)); // ??????
+var tableSize = document.getElementById("pick");
+
+function returnString(a,b) {
+    var stringA=a.toString();
+    var stringB=b.toString();
+    var finalString=stringA+stringB;
+    finalString=finalString.toString();
+
+    return finalString;
+}
 
 function generateTable () {
-
     generateMatrix();
-
+    valueAssigner();
+    shuffler(shuffleArray);
     /* metodo para limpiar la tabla */
-    document.getElementById("tablero").innerHTML = '';
-    for (let j=0; j < matrixRows; j++) {
+    document.getElementById("tablero").innerHTML = "";
+    for (let j=0; j < tableSize.value; j++) {
         document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
-        for (let i=0; i < matrixColumns; i++) {
-            document.getElementById("row"+j).innerHTML+= '<td onclick="check(['+j+']['+i+'],"'+j+''+i+'")">'+j+''+i+'<img id="'+j+''+i+'"></td>'
+        for (let i=0; i < tableSize.value; i++) {
+            document.getElementById("row"+j).innerHTML+= '<td onclick="check(matrix['+j+']['+i+'],'+returnString(j,i)+')"><img src="img/default.png" id="'+j+''+i+'"></td>'
             }
-        
-        } 
-}
+        }
+ }
 
 generateTable();
 
@@ -169,5 +181,14 @@ function gameStart() {
     contraReloj(tiempo);
 }
 
-var tableSize = document.getElementById("pick");
+getMatrixSize();
 
+<<<<<<< HEAD
+=======
+function getMatrixSize() {
+    matrixSize=document.getElementById("pick").value;
+    matrixRows=document.getElementById("pick").value;
+    matrixColumns=document.getElementById("pick").value;
+    generateTable();
+} 
+>>>>>>> 7a2d154dc02ea753383d8063a4c271f90eaf89d9
