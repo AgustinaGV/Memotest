@@ -29,8 +29,13 @@ var idHolder=[];
         }
  }*/
 
+ /* funcion para generar la tabla. Dentro de las filas y columnas que se van agregando introducimos la imagen default, con las funciones onclick */ 
  function generateTable () {
   
+    generateMatrix ();
+    valueAssigner();
+    shuffler(shuffleArray);
+
     content.innerHTML = null;
     for (let j=0; j<matrixRows; j++) {
         let row = content.insertRow (j)
@@ -39,7 +44,7 @@ var idHolder=[];
             let cell = row.insertCell(i);
             cell.innerHTML = "<img src=img/default.png>";
             cell.setAttribute ("id", j+""+i);
-            cell.setAttribute ("onclick", "saludar(id)");
+            cell.setAttribute ("onclick", "check(id)");
         };
     }
 }
@@ -63,10 +68,10 @@ getMatrixSize();
 
 
 function generateMatrix () {
-    for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
+    for (let i=0; i<=matrixRows; i++) { //recorre la dimension de la matriz
         matrix.push([]);//agrega un array por posicion de matrixSize
         
-        for (let j=0; j<matrixColumns; j++) {
+        for (let j=0; j<=matrixColumns; j++) {
             matrix[i].push(0);//rellena de la cantidad de 0 necesaria
             shuffleArray.push({Row:i, Col:j});
             };
@@ -76,12 +81,34 @@ function generateMatrix () {
 }
 
 function valueAssigner() {
-    for (let i=0; i<(Math.floor(((matrixSize*matrixSize)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<(Math.floor(((matrixRows*matrixColumns)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
     }
 }
+
+function shuffler (array) {
+
+	var currentIndex = array.length;
+	var temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+
+};
+
 
 function parser (id) {
 
@@ -96,8 +123,10 @@ function parser (id) {
 
 }
 
-function check(value,id) {
+function check(id) {
     
+    
+    let value = parser (id);
     checker.push(value);
     idHolder.push(id);
 
@@ -154,23 +183,3 @@ function displayScore(id) {
    document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
 }
 
-function shuffler (array) {
-
-	var currentIndex = array.length;
-	var temporaryValue, randomIndex;
-
-	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-		// Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-
-		// And swap it with the current element.
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-
-	return array;
-
-};
