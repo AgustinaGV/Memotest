@@ -67,10 +67,11 @@ function getMatrixSize() {
 
 
 function generateMatrix () {
-    for (let i=0; i<=matrixRows; i++) { //recorre la dimension de la matriz
+    matrix=[];
+    for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
         matrix.push([]);//agrega un array por posicion de matrixSize
         
-        for (let j=0; j<=matrixColumns; j++) {
+        for (let j=0; j<matrixColumns; j++) {
             matrix[i].push(0);//rellena de la cantidad de 0 necesaria
             shuffleArray.push({Row:i, Col:j});
             };
@@ -150,7 +151,7 @@ function check(id) {
     else {
         showCard(id,value)
     }
-    if (pairCount=Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
+    if (pairCount===Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
         console.log ("sos vos");
     }
 }
