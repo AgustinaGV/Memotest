@@ -56,9 +56,9 @@ generateTable ();
 
 /* funcion para modificar el tamaño de la tabla, una vez que el usuario modifica el value, se reinicia generateTable() */
 function getMatrixSize() {
-    matrixSize=document.getElementById("pick").value;
-    matrixRows=document.getElementById("pick").value;
-    matrixColumns=document.getElementById("pick").value;
+    matrixSize=parseInt(document.getElementById("pick").value);
+    matrixRows=parseInt(document.getElementById("pick").value);
+    matrixColumns=parseInt(document.getElementById("pick").value);
     generateTable();
 } 
 
@@ -84,6 +84,10 @@ function valueAssigner() {
         matrix[shuffleArray[i].Row][shuffleArray[i].Col]=i/2;
         matrix[shuffleArray[i+1].Row][shuffleArray[i+1].Col]=i/2;
     }
+    if ((matrixSize^2)%2 !== 0) {
+        matrix[shuffleArray[(matrixSize**2)-1].Row][shuffleArray[(matrixSize**2)-1].Col]=((matrixSize**2)+1)/2;
+        console.log("funciono")
+    } 
 }
 
 function shuffler (array) {
@@ -152,7 +156,7 @@ function check(id) {
     else {
         showCard(id,value)
     }
-    if (pairCount===Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
+    if (pairCount===Math.floor((matrixSize**2)/2)) { //condición ganadora
         displayScore();
         console.log ("sos vos");
     }
