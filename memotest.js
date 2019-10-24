@@ -1,19 +1,20 @@
 // DECLARO VARIABLES Y CONSTANTES;
-var content = document.querySelector("table tbody"); /*le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido*/
+var content = document.querySelector("table tbody"); /le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido/
 var tableSize = document.getElementById("pick");
-var matrixSize = 4; //Dimension de la matriz (5x5, 6x6, etc)
-var matrixRows = 4; //Dimension de la matriz (5x5, 6x6, etc)
+var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
+var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
 var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
-var imgArray=["img/0.png", "img/1.png", "img/2.png", "img/3.png", "img/4.png", "img/5.png", "img/6.png", "img/7.png", "img/8.png", "img/9.png", "img/10.png", "img/11.png", "img/12.png", "img/13.png", "img/14.png", "img/15.png", "img/16.png", "img/17.png"]; // declaro el array que va a contener los objetos.
+var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
-var puntos; //
+var score=1000; //
+var mod=0.98;
 var pairCount=0;
 var jugadores; //variable que guarda los jugadores
 var idHolder=[];
 
-/*---------------------- FUNCIONES ----------------------*/
+/---------------------- FUNCIONES ----------------------/
 
 /*function generateTable () {
     generateMatrix();
@@ -50,6 +51,10 @@ var idHolder=[];
 }
 
 
+function saludar (identif) {
+    console.log ("hola perrita "+identif);
+}
+
 generateTable ();
 
 
@@ -61,11 +66,13 @@ function getMatrixSize() {
 } 
 
 
+
 function generateMatrix () {
-    for (let i=0; i<=matrixRows; i++) { //recorre la dimension de la matriz
+    matrix=[];
+    for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
         matrix.push([]);//agrega un array por posicion de matrixSize
         
-        for (let j=0; j<=matrixColumns; j++) {
+        for (let j=0; j<matrixColumns; j++) {
             matrix[i].push(0);//rellena de la cantidad de 0 necesaria
             shuffleArray.push({Row:i, Col:j});
             };
@@ -75,7 +82,7 @@ function generateMatrix () {
 }
 
 function valueAssigner() {
-    for (let i=0; i<(Math.floor(((matrixRows*matrixColumns)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<matrixRows*matrixColumns; i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
@@ -124,20 +131,23 @@ function check(id) {
     console.log(typeof(value));
     checker.push(value);
     idHolder.push(id);
+    scoreMaker();
 
     //console.log(id);
+    document.getElementById(id).setAttribute("onclick","")
+
 
     if (checker.length===2) {
         showCard(id,value);
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
-            setTimeout(correctPair(idHolder[0],idHolder[1]),2000)
+            setTimeout(correctPair(idHolder[0],idHolder[1]),2000);
             checker=[];
             idHolder=[];
             pairCount=pairCount+1;
         }
         else {
-            var fillerVar=setTimeout(flip(idHolder[0],idHolder[1]),2000);
+            setTimeout(flip(idHolder[0],idHolder[1]),2000);
             checker=[];
             idHolder=[];
         }
@@ -145,7 +155,9 @@ function check(id) {
     else {
         showCard(id,value)
     }
-    if (pairCount=Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
+    if (pairCount===Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
+        displayScore();
+        console.log ("sos vos");
     }
 }
 
@@ -160,7 +172,9 @@ function showCard (id,value) {
 
 function flip(id1,id2) {
     document.getElementById(id1).setAttribute("src","img/default.png");
-    document.getElementById(id2).setAttribute("src","img/default.png")
+    document.getElementById(id2).setAttribute("src","img/default.png");
+    document.getElementById(id1).setAttribute("onclick","check(id)");
+    document.getElementById(id2).setAttribute("onclick","check(id)");
 }
 
 
@@ -172,8 +186,10 @@ function generarJugadores (id) { // Esta función genera los espacios para asign
    }
 }
 
-function displayScore(id) {
-   score= scoreMaker()
-   document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
+function scoreMaker() {
+    score= Math.floor(score*mod);
 }
 
+function displayScore() {
+   document.getElementById("scorer").innerHTML=score; // Imprime el puntaje final.
+}
