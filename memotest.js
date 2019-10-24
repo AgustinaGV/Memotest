@@ -1,8 +1,8 @@
 // DECLARO VARIABLES Y CONSTANTES;
-var content = document.querySelector("table tbody"); /le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido/
+var content = document.querySelector("table tbody"); /*le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido*/
 var tableSize = document.getElementById("pick");
-var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
-var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
+var matrixSize = 4; //Dimension de la matriz (5x5, 6x6, etc)
+var matrixRows = 4; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
 var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
@@ -14,7 +14,7 @@ var pairCount=0;
 var jugadores; //variable que guarda los jugadores
 var idHolder=[];
 
-/---------------------- FUNCIONES ----------------------/
+/*---------------------- FUNCIONES ----------------------*/
 
 /*function generateTable () {
     generateMatrix();
@@ -51,13 +51,10 @@ var idHolder=[];
 }
 
 
-function saludar (identif) {
-    console.log ("hola perrita "+identif);
-}
-
 generateTable ();
 
 
+/* funcion para modificar el tamaño de la tabla, una vez que el usuario modifica el value, se reinicia generateTable() */
 function getMatrixSize() {
     matrixSize=document.getElementById("pick").value;
     matrixRows=document.getElementById("pick").value;
@@ -66,7 +63,7 @@ function getMatrixSize() {
 } 
 
 
-
+/* generateMatrix() crea el array bidimensional, dandole por default el valor 0 a cada elemento (filas y columnas) */
 function generateMatrix () {
     matrix=[];
     for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
@@ -82,7 +79,7 @@ function generateMatrix () {
 }
 
 function valueAssigner() {
-    for (let i=0; i<matrixRows*matrixColumns; i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<(matrixRows*matrixColumns); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
