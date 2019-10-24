@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
 <meta charset="utf-8">
 <title>Memotest</title>
 
@@ -12,11 +13,13 @@
 
     <h1>Memotest</h1>
     
-    <select id="pick" onchange="getMatrixSize()">
-        <option value="4">4x4</option>
-        <option value="5">5x5</option>
-        <option value="6">6x6</option>
+    <select id="pick" onchange="getMatrixSize()" class="options">
+        <option value="4">4 x 4</option>
+        <option value="5">5 x 5</option>
+        <option value="6">6 x 6</option>
     </select>
+
+    <button class="options">Reiniciar Partida</button>
 
     <table>
 
@@ -24,7 +27,7 @@
             
         </tbody>
         
-    </table>
+    </table> 
 
 </body>
 <script src="memotest.js"></script>

@@ -1,12 +1,12 @@
 // DECLARO VARIABLES Y CONSTANTES;
 var content = document.querySelector("table tbody"); /*le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido*/
 var tableSize = document.getElementById("pick");
-var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
-var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
+var matrixSize = 4; //Dimension de la matriz (5x5, 6x6, etc)
+var matrixRows = 4; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
 var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
-var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg"]; // declaro el array que va a contener los objetos.
+var imgArray=["img/0.png", "img/1.png", "img/2.png", "img/3.png", "img/4.png", "img/5.png", "img/6.png", "img/7.png", "img/8.png", "img/9.png", "img/10.png", "img/11.png", "img/12.png", "img/13.png", "img/14.png", "img/15.png", "img/16.png", "img/17.png"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var puntos; //
 var pairCount=0;
@@ -50,10 +50,6 @@ var idHolder=[];
 }
 
 
-function saludar (identif) {
-    console.log ("hola perrita "+identif);
-}
-
 generateTable ();
 
 
@@ -63,7 +59,6 @@ function getMatrixSize() {
     matrixColumns=document.getElementById("pick").value;
     generateTable();
 } 
-
 
 
 function generateMatrix () {
@@ -151,7 +146,6 @@ function check(id) {
         showCard(id,value)
     }
     if (pairCount=Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
-        console.log ("sos vos");
     }
 }
 
