@@ -35,7 +35,6 @@ var idHolder=[];
   
     generateMatrix ();
     valueAssigner();
-    //shuffleArray=shuffler(shuffleArray);
 
     content.innerHTML = null;
     for (let j=0; j<matrixRows; j++) {
@@ -76,7 +75,7 @@ function generateMatrix () {
             };
 };
 
-    //shuffleArray=shuffler(shuffleArray);
+    shuffleArray=shuffler(shuffleArray);
 }
 
 function valueAssigner() {
