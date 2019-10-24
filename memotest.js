@@ -8,7 +8,8 @@ var checker=[]; // este array guarda los 2 valores para comparar si son los mism
 var matrix=[]; // declaro la matriz
 var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
-var puntos; //
+var score=1000; //
+var mod=0.98;
 var pairCount=0;
 var jugadores; //variable que guarda los jugadores
 var idHolder=[];
@@ -130,20 +131,23 @@ function check(id) {
     console.log(typeof(value));
     checker.push(value);
     idHolder.push(id);
+    scoreMaker();
 
     //console.log(id);
+    document.getElementById(id).setAttribute("onclick","")
+
 
     if (checker.length===2) {
         showCard(id,value);
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
-            let fillerVar2= setTimeout(correctPair(idHolder[0],idHolder[1]),2000)
+            setTimeout(correctPair(idHolder[0],idHolder[1]),2000);
             checker=[];
             idHolder=[];
             pairCount=pairCount+1;
         }
         else {
-            let fillerVar=setTimeout(flip(idHolder[0],idHolder[1]),2000);
+            setTimeout(flip(idHolder[0],idHolder[1]),2000);
             checker=[];
             idHolder=[];
         }
@@ -152,6 +156,7 @@ function check(id) {
         showCard(id,value)
     }
     if (pairCount===Math.floor((matrixSize*matrixSize)/2)) { //condición ganadora
+        displayScore();
         console.log ("sos vos");
     }
 }
@@ -167,7 +172,9 @@ function showCard (id,value) {
 
 function flip(id1,id2) {
     document.getElementById(id1).setAttribute("src","img/default.png");
-    document.getElementById(id2).setAttribute("src","img/default.png")
+    document.getElementById(id2).setAttribute("src","img/default.png");
+    document.getElementById(id1).setAttribute("onclick","check(id)");
+    document.getElementById(id2).setAttribute("onclick","check(id)");
 }
 
 
@@ -179,8 +186,11 @@ function generarJugadores (id) { // Esta función genera los espacios para asign
    }
 }
 
-function displayScore(id) {
-   score= scoreMaker()
-   document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
+function scoreMaker() {
+    score= Math.floor(score*mod);
+}
+
+function displayScore() {
+   document.getElementById("scorer").innerHTML=score; // Imprime el puntaje final.
 }
 
