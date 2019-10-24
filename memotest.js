@@ -1,12 +1,12 @@
 // DECLARO VARIABLES Y CONSTANTES;
-var content = document.querySelector("table tbody"); /*le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido*/
+var content = document.querySelector("table tbody"); /le asigno a la variable content la tabla que está vacía para después poder modificarla con la funcion generateTable, pasandola como parámetro. También al tenerla en una variable agilizamos su manipulación, tanto para llenarla como para vaciar el contenido/
 var tableSize = document.getElementById("pick");
 var matrixSize=5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixRows = 5; //Dimension de la matriz (5x5, 6x6, etc)
 var matrixColumns = matrixRows;
 var checker=[]; // este array guarda los 2 valores para comparar si son los mismos
 var matrix=[]; // declaro la matriz
-var imgArray=["img/0.jpg", "img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.png", "img/5.png", "img/6.png", "img/7.jpg", "img/8.jpg", "img/9.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg", "img/15.png", "img/16.png", "img/17.jpg"]; // declaro el array que va a contener los objetos.
+var imgArray=["img/0.png", "img/1.png", "img/2.png", "img/3.png", "img/4.png", "img/5.png", "img/6.png", "img/7.png", "img/8.png", "img/9.png", "img/10.png", "img/11.png", "img/12.png", "img/13.png", "img/14.png", "img/15.png", "img/16.png", "img/17.png"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
 var score=1000; //
 var mod=0.98;
@@ -14,7 +14,7 @@ var pairCount=0;
 var jugadores; //variable que guarda los jugadores
 var idHolder=[];
 
-/*---------------------- FUNCIONES ----------------------*/
+/---------------------- FUNCIONES ----------------------/
 
 /*function generateTable () {
     generateMatrix();
@@ -82,7 +82,7 @@ function generateMatrix () {
 }
 
 function valueAssigner() {
-    for (let i=0; i<(Math.floor(((matrixRows*matrixColumns)/2))*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+    for (let i=0; i<matrixRows*matrixColumns; i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
         for(let j=0; j<2; j++) { // Generar de a pares
             matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
         }
@@ -193,4 +193,3 @@ function scoreMaker() {
 function displayScore() {
    document.getElementById("scorer").innerHTML=score; // Imprime el puntaje final.
 }
-
