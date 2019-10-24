@@ -66,6 +66,7 @@ function getMatrixSize() {
 /* generateMatrix() crea el array bidimensional, dandole por default el valor 0 a cada elemento (filas y columnas) */
 function generateMatrix () {
     matrix=[];
+    shuffleArray=[];
     for (let i=0; i<matrixRows; i++) { //recorre la dimension de la matriz
         matrix.push([]);//agrega un array por posicion de matrixSize
         
@@ -79,10 +80,9 @@ function generateMatrix () {
 }
 
 function valueAssigner() {
-    for (let i=0; i<(matrixRows*matrixColumns); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
-        for(let j=0; j<2; j++) { // Generar de a pares
-            matrix[shuffleArray[i+j].Row][shuffleArray[i+j].Col]=i/2;   // Asigna a las posiciones de la matriz dos posiciones iguales cada vez que se recorre el primer for        
-        }
+    for (let i=0; i<(Math.floor((matrixRows*matrixColumns)/2)*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
+        matrix[shuffleArray[i].Row][shuffleArray[i].Col]=i/2;
+        matrix[shuffleArray[i+1].Row][shuffleArray[i+1].Col]=i/2;
     }
 }
 
