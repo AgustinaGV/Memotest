@@ -8,11 +8,11 @@ var checker=[]; // este array guarda los 2 valores para comparar si son los mism
 var matrix=[]; // declaro la matriz
 var imgArray=["img/0.png", "img/1.png", "img/2.png", "img/3.png", "img/4.png", "img/5.png", "img/6.png", "img/7.png", "img/8.png", "img/9.png", "img/10.png", "img/11.png", "img/12.png", "img/13.png", "img/14.png", "img/15.png", "img/16.png", "img/17.png"]; // declaro el array que va a contener los objetos.
 var shuffleArray=[]; // declaro el array que va a mezclar las posiciones.
-var score=1000; //
-var mod=0.98;
-var pairCount=0;
+var score=1000; // puntaje inicial
+var mod=0.98; // variable por la cual se multiplica el puntaje (al ser menor que 1 hace el numero menor en vez de mayor al multiplicarlo, es lo mismo q dividir por 1.02)
+var pairCount=0; // valor inicial de los pares correctos
 var jugadores; //variable que guarda los jugadores
-var idHolder=[];
+var idHolder=[]; 
 
 /*---------------------- FUNCIONES ----------------------*/
 
@@ -71,20 +71,20 @@ function generateMatrix () {
         
         for (let j=0; j<matrixColumns; j++) {
             matrix[i].push(0);//rellena de la cantidad de 0 necesaria
-            shuffleArray.push({Row:i, Col:j});
+            shuffleArray.push({Row:i, Col:j}); // crea un objeto con Row y Col por cada posicion de la matriz. Al llamar una subposicion de la matriz estas llamando un objeto con un set de coordenadas unico.
             };
 };
 
-    shuffleArray=shuffler(shuffleArray);
+    shuffleArray=shuffler(shuffleArray); // randomiza las posiciones una vez ya generadas
 }
 
-function valueAssigner() {
+function valueAssigner() { // Asigna valores de a pares a las posiciones disponibles de la matriz.
     for (let i=0; i<(Math.floor((matrixRows*matrixColumns)/2)*2); i=i+2) { // Cuenta hasta la mitad del total de posiciones en la matriz. Omite numeros impares (5x5, 7x7, 9x9)
-        matrix[shuffleArray[i].Row][shuffleArray[i].Col]=i/2;
-        matrix[shuffleArray[i+1].Row][shuffleArray[i+1].Col]=i/2;
+        matrix[shuffleArray[i].Row][shuffleArray[i].Col]=i/2; // Asigna la primer posicion de un par llamando al objeto de la subposicion i de shuffleArray, que contiene un objeto con un dato de Col y Row para utilzar como posicion.
+        matrix[shuffleArray[i+1].Row][shuffleArray[i+1].Col]=i/2; //Asigna la segunda posición de un par llamando al objeto de la subposicion i+1 de shuffleArray, que contiene un objeto con un dato de Col y Row para utilzar como posicion.
     }
-    if ((matrixSize^2)%2 !== 0) {
-        matrix[shuffleArray[(matrixSize**2)-1].Row][shuffleArray[(matrixSize**2)-1].Col]=((matrixSize**2)+1)/2;
+    if ((matrixSize**2)%2 !== 0) { // Asigna el valor que falta en una matriz impar
+        matrix[shuffleArray[(matrixSize**2)-1].Row][shuffleArray[(matrixSize**2)-1].Col]=((matrixSize**2)+1)/2; //el -1 es porque la ultima subposicion de un array con 25 posiciones es 24, ya que la primera subposicion es 0.
         console.log("funciono")
     } 
 }
@@ -111,83 +111,72 @@ function shuffler (array) {
 };
 
 
-function parser (id) {
+function parser (id) { // esta funcion separa las partes del id y las transforma en numero.(ej: el id "00" pasa a ser matrix[0][0])
 
-    let tenedor = id;
-    let guardarPrimerNumero = tenedor.substr(0,1);
-    let guardarSegundoNumero = tenedor.substr(1,1);
-    guardarPrimerNumero = parseInt(guardarPrimerNumero);
-    guardarSegundoNumero = parseInt (guardarSegundoNumero);
-    let valorMatriz = matrix[guardarPrimerNumero][guardarSegundoNumero];
+    let tenedor = id; // variable auxiliar para guardar el string del id
+    let guardarPrimerNumero = tenedor.substr(0,1); // guardo el primer carácter del string
+    let guardarSegundoNumero = tenedor.substr(1,1); // guardo el segundo caracter del string
+    guardarPrimerNumero = parseInt(guardarPrimerNumero); //transformo en numero el primer carácter que había guardado
+    guardarSegundoNumero = parseInt (guardarSegundoNumero); //transformo en numero el segundo carácter que había guardado
+    let valorMatriz = matrix[guardarPrimerNumero][guardarSegundoNumero]; //asigno en una variable la coordenada correspondiente a los numeros indicados por el id, ver ejemplo en la linea 114.
 
-    return valorMatriz;
+    return valorMatriz; // devuelvo el valor de la posicion indicada de la matriz
 
 }
 
 function check(id) {
       
-    let value = parser (id);
+    let value = parser (id); // guardo en value el valor de la posición de la matriz indicada por el elemento al que se le hizo click
     console.log(value);
     console.log(typeof(value));
-    checker.push(value);
-    idHolder.push(id);
-    scoreMaker();
+    checker.push(value); // meto el valor numerico al array checker
+    idHolder.push(id); // meto el string con el id al array idHolder
+    scoreMaker(); // Ejecuto la función que disminuye el puntaje al hacer click
 
     //console.log(id);
-    document.getElementById(id).setAttribute("onclick","")
+    document.getElementById(id).setAttribute("onclick",""); // elimino el onclick del elemento al que se le hizo click para evitar que futuros clicks en ese elemento rompan la lógica.
+    showCard(id,value); // muestro la carta que fue seleccionada
 
-
-    if (checker.length===2) {
-        showCard(id,value);
+    if (checker.length===2) { // me fijo si el jugador clickeo 2 cartas diferentes
+         
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
-            setTimeout(correctPair(idHolder[0],idHolder[1]),2000);
-            checker=[];
-            idHolder=[];
-            pairCount=pairCount+1;
+            setTimeout(correctPair(idHolder[0],idHolder[1]),2000); //el timeout espera 2 segundos y ejecuta la funcion correctPair (no esta funcionando, pero esa es la lógica)
+            checker=[]; //limpio el array checker
+            idHolder=[]; //limpio el array idHolder
+            pairCount=pairCount+1; // agrego 1 a la cuenta de pares correctos.
         }
         else {
-            setTimeout(flip(idHolder[0],idHolder[1]),2000);
-            checker=[];
-            idHolder=[];
+            setTimeout(flip(idHolder[0],idHolder[1]),2000); // el timeout espera 2 segundos y ejecuta la función flip (no esta funcionando y lo ejecuta instantáneamente, por lo que parece que la segunda carta solo se muestra si es correcta)
+            checker=[]; // limpio el array checker
+            idHolder=[]; // limpio el array idHolder
         }
     }
-    else {
-        showCard(id,value)
-    }
-    if (pairCount===Math.floor((matrixSize**2)/2)) { //condición ganadora
-        displayScore();
+    
+    if (pairCount===Math.floor((matrixSize**2)/2)) { //condición ganadora. Ya que contamos PARES correctos tiene que ser la mitad del cuadrado de la matriz. (4x4 tiene 8 pares, 5x5 tiene 12 pares, 6x6 tiene 18 pares.)
+        displayScore(); // muestro el puntaje final.
         console.log ("sos vos");
     }
 }
 
-function correctPair(id1,id2) {
+function correctPair(id1,id2) { // asigna a los 2 elementos clickeados la clase "correct"
     document.getElementById(id1).setAttribute("class","correct");
     document.getElementById(id2).setAttribute("class","correct");
 }
 
 function showCard (id,value) {
-    document.getElementById(id).setAttribute("src",imgArray[value]) /*en realidad acá me parece que tendríamos que modificar las clases del elemento html, osea que tenga un display none o visibility hidden y en el onclick se haga visible*/
+    document.getElementById(id).setAttribute("src",imgArray[value]) //utiliza el id para seleccionar el elemento indicado y el value para saber que imagen del array de imagenes (imgArray[valor en la matriz del id]) hay que mostrar.
 }
 
-function flip(id1,id2) {
-    document.getElementById(id1).setAttribute("src","img/default.png");
-    document.getElementById(id2).setAttribute("src","img/default.png");
-    document.getElementById(id1).setAttribute("onclick","check(id)");
-    document.getElementById(id2).setAttribute("onclick","check(id)");
-}
-
-
-function generarJugadores (id) { // Esta función genera los espacios para asignar los valores dentro del array, ya que sino devolveria error por no tener una posicion en el array.
-   jugadores=document.getElementById(id).value;
-   for (i=0; i< jugadores; i++) {
-       jugadoresPuntaje.push(null);
-       jugadoresTiempo.push(null);
-   }
+function flip(id1,id2) { // condicion al ser incorrecto el par seleccionado
+    document.getElementById(id1).setAttribute("src","img/default.png"); // le vuelvo a dar default como imagen a la primera imágen que seleccionó
+    document.getElementById(id2).setAttribute("src","img/default.png"); // le vuelvo a dar default como imagen a la segunda imágen que seleccionó
+    document.getElementById(id1).setAttribute("onclick","check(id)"); // le devuelvo el onclick a la primera imágen que seleccionó, para que vuelva a ser interactuable.
+    document.getElementById(id2).setAttribute("onclick","check(id)"); // le devuelvo el onclick a la segunda imágen que seleccionó, para que vuelva a ser interactuable.
 }
 
 function scoreMaker() {
-    score= Math.floor(score*mod);
+    score= Math.floor(score*mod); // multiplica el puntaje actual por la variable mod cada vez q se ejecuta
 }
 
 function displayScore() {
