@@ -19,17 +19,25 @@
         <option value="6">6 x 6</option>
     </select>
 
-    <button class="options">Reiniciar Partida</button>
+    <button>Reiniciar Partida</button>
 
-    <table>
+    <div id="container">
+        <div id="player1" class="distributeElements">
+            <span id="titleP1" class="score">Jugador 1</span>
+            <span id="scoreP1" class="score">Puntos</span>
+        </div>
 
-        <tbody id="tablero">
-            
-        </tbody>
-        
-    </table> 
+        <table class="distributeElements">
+            <tbody id="tablero">
+                
+            </tbody>
+        </table> 
 
-    <h4 id="scorer"></h4>
+        <div id="player2" class="distributeElements">
+            <span id="titleP2" class="score">Jugador 2</span>
+            <span id="scoreP2" class="score">Puntos</span>
+        </div>
+    </div>
 
 </body>
 <script src="memotest.js"></script>

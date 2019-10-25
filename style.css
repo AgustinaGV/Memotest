@@ -50,21 +50,29 @@ table {
 
 /*------------------------ FIN RESET CSS ------------------------*/
 
-body {
-	font-family: 'Varela Round', sans-serif;
-	width: 80%;
-	margin: 0 auto;
-	text-align: center;
+/*------------ IDs -------------*/
+
+#container {
+
+	width: 100%;
+	position: relative;
 }
 
-h1 {
+#player1 {
 
-	font-size: 3em;
-	font-family: 'Varela Round', sans-serif;
-	font-weight: 900;
-	padding-bottom: 2%;
+	width: 27%;
+	left: 0%;
+    top: 50%;
+    position: absolute;
 }
 
+#player2 {
+
+	width: 27%;
+	position: absolute;
+	top: 50%;
+}
+/*------------ CLASES -------------*/
 
 .options {
 
@@ -76,9 +84,23 @@ h1 {
 
 }
 
+.distributeElements {
+
+	display: inline-block;
+
+}
+
+.score {
+
+	text-transform: uppercase;
+	display: block;
+}
+
+/*------------ GENERALES -------------*/
+
 body {
 	font-family: 'Varela Round', sans-serif;
-	width: 80%;
+	width: 90%;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -90,29 +112,52 @@ h1 {
 	font-weight: 900;
 	padding-bottom: 2%;
 }
+select:hover {
 
+	background-color: rgb(112, 112, 112);
+}
 
-.options {
+button {
 
+	text-decoration: none;
+	border: none;
 	font-family: 'Varela Round', sans-serif;
 	font-size: 1em;
-	padding: 5px 20px 5px 20px;
+	padding: 7px 15px 7px 15px;
 	margin-bottom: 2%;
 	margin-left: 2%;
-
+	color: white;
+	background-color: black;
 }
+
+button:hover {
+
+	background-color: rgb(112, 112, 112);
+}
+
+
 
 table {
-	width: 80%;
-	height: 80%;
+	width: 45%;
+	height: auto;
 	margin: 0 auto;
 }
 
+td {
 
-img {
+	padding-bottom: 1%;
+}
+
+td img {
 	/*max-width: 100%;
 	max-height: 100%;*/
-	object-fit: cover;
-	width: 100%;
+	/*object-fit: cover;*/
+	width: 90%;
+	height: auto;
+}
+
+img:hover {
+
+	opacity: 90%;
 }
 
