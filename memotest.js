@@ -141,15 +141,23 @@ function check(id) {
          
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
-            setTimeout(correctPair(idHolder[0],idHolder[1]),2000); //el timeout espera 2 segundos y ejecuta la funcion correctPair (no esta funcionando, pero esa es la lógica)
-            checker=[]; //limpio el array checker
-            idHolder=[]; //limpio el array idHolder
+            setTimeout(function(){
+                correctPair();
+                checker=[];
+                idHolder=[];
+            },1000); //el timeout espera 2 segundos y ejecuta la funcion correctPair (no esta funcionando, pero esa es la lógica)
+            //checker=[]; //limpio el array checker
+            //idHolder=[]; //limpio el array idHolder
             pairCount=pairCount+1; // agrego 1 a la cuenta de pares correctos.
         }
         else {
-            setTimeout(flip(idHolder[0],idHolder[1]),2000); // el timeout espera 2 segundos y ejecuta la función flip (no esta funcionando y lo ejecuta instantáneamente, por lo que parece que la segunda carta solo se muestra si es correcta)
-            checker=[]; // limpio el array checker
-            idHolder=[]; // limpio el array idHolder
+            setTimeout(function(){
+                flip();
+                checker=[];
+                idHolder=[];
+            },1000); // el timeout espera 2 segundos y ejecuta la función flip (no esta funcionando y lo ejecuta instantáneamente, por lo que parece que la segunda carta solo se muestra si es correcta)
+            //checker=[]; // limpio el array checker
+            //idHolder=[]; // limpio el array idHolder
         }
     }
     
@@ -159,26 +167,26 @@ function check(id) {
     }
 }
 
-function correctPair(id1,id2) { // asigna a los 2 elementos clickeados la clase "correct"
-    document.getElementById(id1).setAttribute("class","correct");
-    document.getElementById(id2).setAttribute("class","correct");
+function correctPair() { // asigna a los 2 elementos clickeados la clase "correct"
+    document.getElementById(idHolder[0]).setAttribute("class","correct");
+    document.getElementById(idHolder[1]).setAttribute("class","correct");
 }
 
 function showCard (id,value) {
     document.getElementById(id).setAttribute("src",imgArray[value]) //utiliza el id para seleccionar el elemento indicado y el value para saber que imagen del array de imagenes (imgArray[valor en la matriz del id]) hay que mostrar.
 }
 
-function flip(id1,id2) { // condicion al ser incorrecto el par seleccionado
-    document.getElementById(id1).setAttribute("src","img/default.png"); // le vuelvo a dar default como imagen a la primera imágen que seleccionó
-    document.getElementById(id2).setAttribute("src","img/default.png"); // le vuelvo a dar default como imagen a la segunda imágen que seleccionó
-    document.getElementById(id1).setAttribute("onclick","check(id)"); // le devuelvo el onclick a la primera imágen que seleccionó, para que vuelva a ser interactuable.
-    document.getElementById(id2).setAttribute("onclick","check(id)"); // le devuelvo el onclick a la segunda imágen que seleccionó, para que vuelva a ser interactuable.
+function flip() { // condicion al ser incorrecto el par seleccionado
+    document.getElementById(idHolder[0]).setAttribute("src","img/default.png"); // le vuelvo a dar default como imagen a la primera imágen que seleccionó
+    document.getElementById(idHolder[1]).setAttribute("src","img/default.png"); // le vuelvo a dar default como imagen a la segunda imágen que seleccionó
+    document.getElementById(idHolder[0]).setAttribute("onclick","check(id)"); // le devuelvo el onclick a la primera imágen que seleccionó, para que vuelva a ser interactuable.
+    document.getElementById(idHolder[1]).setAttribute("onclick","check(id)"); // le devuelvo el onclick a la segunda imágen que seleccionó, para que vuelva a ser interactuable.
 }
 
 function scoreMaker() {
     score= Math.floor(score*mod); // multiplica el puntaje actual por la variable mod cada vez q se ejecuta
 }
 
-function displayScore() {
-   document.getElementById("scorer").innerHTML=score; // Imprime el puntaje final.
+function displayScore(id) {
+   document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
 }
