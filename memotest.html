@@ -10,35 +10,52 @@
 </head>
 
 <body>
+    <div class="centerme">
 
-    <h1>Memotest</h1>
-    
-    <select id="pick" onchange="getMatrixSize()" class="options">
-        <option value="4">4 x 4</option>
-        <option value="5">5 x 5</option>
-        <option value="6">6 x 6</option>
-    </select>
+        <h1>Memotest</h1>
 
-    <button>Reiniciar Partida</button>
-
-    <div id="container">
-        <div id="player1" class="distributeElements">
-            <span id="titleP1" class="score">Jugador 1</span>
-            <span id="scoreP1" class="score">Puntos</span>
-        </div>
-
-        <table class="distributeElements">
-            <tbody id="tablero">
-                
-            </tbody>
-        </table> 
-
-        <div id="player2" class="distributeElements">
-            <span id="titleP2" class="score">Jugador 2</span>
-            <span id="scoreP2" class="score">Puntos</span>
-        </div>
+        <div id="container">
+            <div>
+                <div class="horiflex">
+                    <div class="vertiflex leftside">
+                        <div class="difficulties vertiflex">
+                            <select id="pick" onchange="getMatrixSize()" class="options">
+                                <option value="4">4 x 4</option>
+                                <option value="5">5 x 5</option>
+                                <option value="6">6 x 6</option>
+                            </select>
+                            <button onclick="reset()">Reiniciar Partida</button>
+                        </div>
+                        <div class="time">
+                            <h4 class="minibox gray">Tiempo</h4>
+                            <span id="time" class="minibox boxdisplay cyan">00:00</span>
+                        </div>
+                    </div>
+                    <table class="distributeElements">
+                        <tbody id="tablero">
+                            
+                        </tbody>
+                    </table>
+                    <table class="scoreboardtable">
+                        <thead>
+                            <td>Tabla de puntuacion</td>
+                        </thead>
+                        <tbody id="scoreboard">
+                            <tr class="horiflex">
+                                <td class="profileimage"></td>
+                                <td class="name">Apodo</td>
+                                <td class="score">Puntaje</td>
+                            </tr>                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="scoredisplay">
+                <span id="player"></span>
+            </div>
     </div>
 
 </body>
+<script src="assets/utilidades.js"></script>
 <script src="memotest.js"></script>
 </html>
