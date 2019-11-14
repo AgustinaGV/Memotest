@@ -12,30 +12,18 @@ var score=1000; // puntaje inicial
 var mod=0.98; // variable por la cual se multiplica el puntaje (al ser menor que 1 hace el numero menor en vez de mayor al multiplicarlo, es lo mismo q dividir por 1.02)
 var pairCount=0; // valor inicial de los pares correctos
 var jugadores; //variable que guarda los jugadores
-var idHolder=[]; 
+var idHolder=[];
+var ticking=false;
+var time=0;
+var freeFunction=true;
+const timeUpdater=document.getElementById("time");
 
 /*---------------------- FUNCIONES ----------------------*/
 
-/*function generateTable () {
-    generateMatrix();
-    valueAssigner();
-    shuffler(shuffleArray);
-    //metodo para limpiar la tabla 
-    document.getElementById("tablero").innerHTML = "";
-    for (let j=0; j < tableSize.value; j++) {
-        document.getElementById("tablero").innerHTML+= '<tr id="row'+j+'"></tr>'
-        for (let i=0; i < tableSize.value; i++) {
-            document.getElementById("row"+j).innerHTML+= '<td onclick="check(matrix['+j+']['+i+'],'+returnString(j,i)+')"><img src="img/default.png" id="'+j+''+i+'"></td>'
-            }
-        }
- }*/
-
  /* funcion para generar la tabla. Dentro de las filas y columnas que se van agregando introducimos la imagen default, con las funciones onclick */ 
  function generateTable () {
-  
     generateMatrix ();
     valueAssigner();
-
     content.innerHTML = null;
     for (let j=0; j<matrixRows; j++) {
         let row = content.insertRow (j)
@@ -49,9 +37,7 @@ var idHolder=[];
     }
 }
 
-
 generateTable ();
-
 
 /* funcion para modificar el tamaño de la tabla, una vez que el usuario modifica el value, se reinicia generateTable() */
 function getMatrixSize() {
@@ -105,11 +91,8 @@ function shuffler (array) {
 		array[currentIndex] = array[randomIndex];
 		array[randomIndex] = temporaryValue;
 	}
-
 	return array;
-
 };
-
 
 function parser (id) { // esta funcion separa las partes del id y las transforma en numero.(ej: el id "00" pasa a ser matrix[0][0])
 
@@ -125,27 +108,30 @@ function parser (id) { // esta funcion separa las partes del id y las transforma
 }
 
 function check(id) {
-      
+      if (ticking!=true){
+    runClock();
+    };
+    if (freeFunction==true){
     let value = parser (id); // guardo en value el valor de la posición de la matriz indicada por el elemento al que se le hizo click
     console.log(value);
     console.log(typeof(value));
     checker.push(value); // meto el valor numerico al array checker
     idHolder.push(id); // meto el string con el id al array idHolder
-    scoreMaker(); // Ejecuto la función que disminuye el puntaje al hacer click
 
     //console.log(id);
     document.getElementById(id).setAttribute("onclick",""); // elimino el onclick del elemento al que se le hizo click para evitar que futuros clicks en ese elemento rompan la lógica.
     showCard(id,value); // muestro la carta que fue seleccionada
 
     if (checker.length===2) { // me fijo si el jugador clickeo 2 cartas diferentes
-         
+        freeFunction=false;         
         if (checker[0]==checker[1]) {
             /* lo que queremos que pase cuando se cumpla la condicion */;
             setTimeout(function(){
                 correctPair();
                 checker=[];
                 idHolder=[];
-            },1000); //el timeout espera 2 segundos y ejecuta la funcion correctPair (no esta funcionando, pero esa es la lógica)
+                freeFunction=true;
+            },800); //el timeout espera 2 segundos y ejecuta la funcion correctPair (no esta funcionando, pero esa es la lógica)
             //checker=[]; //limpio el array checker
             //idHolder=[]; //limpio el array idHolder
             pairCount=pairCount+1; // agrego 1 a la cuenta de pares correctos.
@@ -155,16 +141,19 @@ function check(id) {
                 flip();
                 checker=[];
                 idHolder=[];
-            },1000); // el timeout espera 2 segundos y ejecuta la función flip (no esta funcionando y lo ejecuta instantáneamente, por lo que parece que la segunda carta solo se muestra si es correcta)
+                freeFunction=true;
+            },800); // el timeout espera 2 segundos y ejecuta la función flip (no esta funcionando y lo ejecuta instantáneamente, por lo que parece que la segunda carta solo se muestra si es correcta)
             //checker=[]; // limpio el array checker
             //idHolder=[]; // limpio el array idHolder
         }
     }
     
     if (pairCount===Math.floor((matrixSize**2)/2)) { //condición ganadora. Ya que contamos PARES correctos tiene que ser la mitad del cuadrado de la matriz. (4x4 tiene 8 pares, 5x5 tiene 12 pares, 6x6 tiene 18 pares.)
-        displayScore(); // muestro el puntaje final.
+        stopClock();
+        displayScore("player"); // muestro el puntaje final.
         console.log ("sos vos");
     }
+}
 }
 
 function correctPair() { // asigna a los 2 elementos clickeados la clase "correct"
@@ -184,9 +173,45 @@ function flip() { // condicion al ser incorrecto el par seleccionado
 }
 
 function scoreMaker() {
-    score= Math.floor(score*mod); // multiplica el puntaje actual por la variable mod cada vez q se ejecuta
+    for (let i=0;i<time;i++) {
+        score=score*0.992;
+    }
+    score=Math.floor(score);
 }
 
 function displayScore(id) {
-   document.getElementById(id).innerHTML=score; // Imprime el puntaje final.
+    scoreMaker();
+    document.getElementById(id).innerHTML="Puntos: "+score; // Imprime el puntaje final.
+}
+
+function reset () {
+    generateTable();
+    resetTimer();
+}
+
+function runClock() {
+    ticking=true;
+    clock=setInterval(addTime,1000)
+}
+
+function addTime() {
+    time=time+1;
+    timeUpdater.innerHTML=formatTime();
+}
+
+function stopClock() {
+    clearInterval(clock);
+    ticking=false;
+}
+
+function formatTime() {
+    let minutes=Math.floor(time/60);
+    let seconds=time-(minutes*60);
+    minutes=utilidades.pad(minutes,3);
+    seconds=utilidades.pad(seconds,3);
+    minutes=minutes.substr(1,2);
+    seconds=seconds.substr(1,2)
+
+    let returndata=minutes+":"+seconds;
+    return returndata;
 }

@@ -53,72 +53,136 @@ table {
 /*------------ IDs -------------*/
 
 #container {
-
 	width: 100%;
-	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
-#player1 {
-
-	width: 27%;
-	left: 0%;
-    top: 50%;
-    position: absolute;
+#player {
+	font-size: 2em;
+	text-align: center;
+	display:block;
+	margin-top: 5%;
+	padding: 10%;
 }
 
-#player2 {
-
-	width: 27%;
-	position: absolute;
-	top: 50%;
-}
 /*------------ CLASES -------------*/
 
-.options {
+.scoredisplay {
+	width: 20%;
+}
 
+.options {
 	font-family: 'Varela Round', sans-serif;
 	font-size: 1em;
 	padding: 5px 20px 5px 20px;
 	margin-bottom: 2%;
 	margin-left: 2%;
+}
 
+.vertiflex {
+	display: flex;
+	flex-direction: column;
+}
+
+.boxdisplay {
+	display: block;
+}
+
+.gray {
+	background-color: lightgray;
+}
+
+.cyan {
+	background-color: cyan;
+}
+
+.difficulties {
+	width: 70%;
+	align-self: center;
+}
+
+.time {
+	align-self: center;
+	text-align: center;
+	font-size: 2em;
+	width: 80%;
+	margin-top: 5%;
+	border-style: solid;
+	border-width: 0.08em;
+}
+
+.minibox {
+	padding: 5% 10%;
+}
+
+.centerme {
+	width: 90%;
+	min-height: 100vh;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: ghostwhite;
 }
 
 .distributeElements {
-
 	display: inline-block;
+	width: 40%;
+	align-self: center;
+}
 
+.scoreboardtable {
+	width: 20%;
+}
+
+.profileimage {
+	width: 15%;
+}
+
+.name {
+	width: 60%;
+}
+
+.leftside {
+	width: 20%;
 }
 
 .score {
+	width:35% ;
+}
 
-	text-transform: uppercase;
-	display: block;
+.horiflex {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
 }
 
 /*------------ GENERALES -------------*/
 
 body {
 	font-family: 'Varela Round', sans-serif;
-	width: 90%;
-	margin: 0 auto;
-	text-align: center;
+	width: 100%;
+	height: 100vh;
 }
 
 h1 {
-
-	font-size: 3em;
+	font-size: 6em;
 	font-family: 'Varela Round', sans-serif;
 	font-weight: 900;
 	padding-bottom: 2%;
+	margin-top: 2%;
+	text-align: center;
 }
-select:hover {
 
+select:hover {
 	background-color: rgb(112, 112, 112);
 }
 
 button {
-
 	text-decoration: none;
 	border: none;
 	font-family: 'Varela Round', sans-serif;
@@ -131,20 +195,10 @@ button {
 }
 
 button:hover {
-
 	background-color: rgb(112, 112, 112);
 }
 
-
-
-table {
-	width: 45%;
-	height: auto;
-	margin: 0 auto;
-}
-
 td {
-
 	padding-bottom: 1%;
 }
 
@@ -157,7 +211,6 @@ td img {
 }
 
 img:hover {
-
 	opacity: 90%;
 }
 
